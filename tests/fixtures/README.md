@@ -1,0 +1,3 @@
+﻿# Development fixtures — not production recipes
+
+The sample recipes and illustrations were generated with AI assistance for this project on 2026-11-22 as development material; the recipes are untested illustrative drafts and the images are code-drawn SVGs, not a photograph. No third-party recipe text or image was copied. The original files in this directory are the rights evidence and source identifiers. They are intended for development in this repository; production rights and editorial review have not been completed. The project owner has not reviewed or approved them for the production catalog. No kitchen test, editorial review, allergen review or production rights review is claimed. These files must never be counted among the 600 approved release recipes.
