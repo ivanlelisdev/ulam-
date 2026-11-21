@@ -3,4 +3,6 @@ dist/
 *.local
 .npm-cache/
 .phase1-verification/
-Ulam/.obsidian/workspace.json
+AGENTS.md
+docs/evidence/
+Ulam/
