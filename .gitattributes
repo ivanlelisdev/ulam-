@@ -1,1 +1,1 @@
-﻿tests/fixtures/*.svg -text
+tests/fixtures/*.svg text eol=lf
