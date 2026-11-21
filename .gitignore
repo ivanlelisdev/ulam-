@@ -1,0 +1,6 @@
+﻿node_modules/
+dist/
+*.local
+.npm-cache/
+.phase1-verification/
+Ulam/.obsidian/workspace.json

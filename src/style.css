@@ -1,0 +1,12 @@
+﻿:root { font-family: system-ui, sans-serif; color: #242722; background: #faf7ef; font-synthesis: none; }
+* { box-sizing: border-box; }
+body { margin: 0; }
+main { min-height: 100svh; display: flex; flex-direction: column; padding: 32px clamp(24px, 7vw, 104px); }
+.brand { margin: 0; font-size: 1.25rem; font-weight: 800; letter-spacing: .05em; color: #205c43; }
+.brand span, h1 span { color: #bd7731; }
+.intro { max-width: 680px; margin: auto 0; padding: 80px 0; }
+.eyebrow, .footer { font-size: .7rem; letter-spacing: .16em; font-weight: 700; color: #52584e; }
+h1 { margin: 16px 0 24px; font-family: Georgia, serif; font-size: clamp(3.5rem, 11vw, 7rem); line-height: .95; font-weight: 500; letter-spacing: -.06em; }
+.intro > p:not(.eyebrow) { max-width: 460px; font-size: 1.1rem; line-height: 1.7; color: #52584e; }
+.intro .status { margin-top: 40px; padding-left: 16px; border-left: 3px solid #f0b75b; font-size: .9rem !important; }
+.footer { margin: 0; }
