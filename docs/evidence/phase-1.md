@@ -7,7 +7,7 @@ Status: **complete for the requested establishment phase**. On 2026-11-22 the pr
 - Application root: `D:\ulam-app`; vault: `Ulam/`. Git is initialized on `main` and `origin` points to the project GitHub repository. Commit source, documentation and the lockfile; use branches and review changes before merging. `.gitignore` excludes dependencies, builds, temporary tests, npm cache and local Obsidian workspace state.
 - Node.js 24.4.1 and npm 11.4.2 were used. Vite requires Node.js `^20.19.0 || >=22.12.0`. The root README documents install, development, check, build and preview commands. Build, test and release evidence belongs under `docs/evidence/`.
 - The static React, Vite and TypeScript scaffold has strict TypeScript checking and no backend or remote runtime services. It is a starting screen, not an offline-ready app. No domain or guest data logic is implemented.
-- `npm ci`, `npm run check` and `npm run build` passed in a separate clean copy of the application inputs; preview returned HTTP 200. A clean Git checkout is verified separately during publication. The static build produced 0.44 kB HTML, 0.82 kB CSS and 220.10 kB JS before gzip; these are baseline measurements, not budgets.
+- `npm ci`, `npm run check` and `npm run build` passed in a separate clean copy of the application inputs; preview returned HTTP 200. A fresh local Git clone also passed `npm ci`, `npm run check` and `npm run build` on 2026-11-22. The static build produced 0.44 kB HTML, 0.82 kB CSS and 220.10 kB JS before gzip; these are baseline measurements, not budgets.
 
 ## Browser evaluation, 2026-11-22
 
