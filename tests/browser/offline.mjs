@@ -1,4 +1,4 @@
-﻿import assert from 'node:assert/strict';
+import assert from 'node:assert/strict';
 import { spawn } from 'node:child_process';
 import { existsSync, mkdirSync, mkdtempSync, rmSync } from 'node:fs';
 import { join, dirname, basename, resolve } from 'node:path';
@@ -40,9 +40,9 @@ try {
   await context.unroute('**/catalog/**/fried-egg.svg');
   await download.click();
   await page.getByRole('status').filter({hasText:'Ready offline'}).waitFor();
-  assert.equal(await page.locator('.card').count(),2);
+  assert.equal(await page.locator('.recipe-card').count(),2);
   await page.getByRole('searchbox').fill('BAWÁNG');
-  assert.equal(await page.locator('.card').count(),1);
+  assert.equal(await page.locator('.recipe-card').count(),1);
   await page.getByRole('button',{name:'View recipe & plan'}).click();
   await page.getByLabel('Servings',{exact:true}).fill('3');
   await page.getByRole('button',{name:'Save meal',exact:true}).click();
@@ -55,7 +55,7 @@ try {
   await page.getByLabel('Servings',{exact:true}).fill('4');
   page.once('dialog', dialog => dialog.accept());
   await page.getByRole('button',{name:'Save meal',exact:true}).click();
-  await page.getByRole('alert').filter({hasText:'Could not save your meal'}).waitFor();
+  await page.getByRole('alert').filter({hasText:'Local storage is full'}).waitFor();
   assert.equal(await page.getByLabel('Servings',{exact:true}).inputValue(),'4');
   await page.evaluate(()=>{IDBObjectStore.prototype.put=window.originalPlanPut;});
   console.log('PASS failed storage write preserves form choices and prior saved meal');
@@ -67,17 +67,18 @@ try {
   await page.goto(origin+'/plan');
   await page.getByRole('heading',{name:'Your week',exact:true}).waitFor();
   await page.getByRole('status').filter({hasText:'Ready offline'}).waitFor();
-  await page.getByText('Garlic fried rice',{exact:true}).waitFor();
-  assert((await page.locator('main').innerText()).includes('3 servings'));
+  await page.getByRole('button',{name:'Garlic fried rice',exact:true}).waitFor();
+  assert.equal(await page.getByLabel('Servings for dinner').inputValue(),'3');
   await page.getByRole('link',{name:'Recipes',exact:true}).click();
   await page.getByRole('searchbox').fill('sinangag');
   await page.getByRole('button',{name:'View recipe & plan'}).click();
   await page.getByRole('heading',{name:'Directions',exact:true}).waitFor();
-  assert.equal(await page.locator('.card img').evaluateAll(images=>images.every(image=>image.complete && image.naturalWidth>0)),true);
+  assert.equal(await page.locator('.recipe-detail img').evaluateAll(images=>images.every(image=>image.complete && image.naturalWidth>0)),true);
   assert(await page.evaluate(()=>document.documentElement.scrollWidth<=innerWidth));
   mkdirSync('docs/evidence',{recursive:true});
   await page.screenshot({path:'docs/evidence/phase-3-mobile.png',fullPage:true});
   console.log('PASS full browser restart offline deep link, local image, directions and saved servings');
+  await page.getByRole('link',{name:'Recipes',exact:true}).click();
   await page.evaluate(async()=>{const cache=await caches.open('ulam-catalog-v1');for(const request of await cache.keys()) if(request.url.endsWith('fried-egg.svg')) await cache.delete(request);});
   await page.reload();
   await page.getByRole('button',{name:'Repair offline files',exact:true}).waitFor();
@@ -98,7 +99,7 @@ try {
   await context.setOffline(false);
   await page.getByRole('button',{name:'Repair offline files',exact:true}).click();
   await page.getByRole('status').filter({hasText:'Ready offline'}).waitFor();
-  await page.waitForFunction(()=>document.querySelectorAll('.card img').length===2 && [...document.querySelectorAll('.card img')].every(image=>image.complete && image.naturalWidth>0));
+  await page.waitForFunction(()=>document.querySelectorAll('.recipe-card img').length===2 && [...document.querySelectorAll('.recipe-card img')].every(image=>image.complete && image.naturalWidth>0));
   console.log('PASS visible missing-image placeholder recovers after repair without reload');
   await page.evaluate(async()=>{for(const name of await caches.keys()) if(name.startsWith('ulam-shell-')) await (await caches.open(name)).delete('/manifest.webmanifest');});
   await context.setOffline(true);

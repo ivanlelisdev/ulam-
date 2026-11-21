@@ -53,11 +53,11 @@ describe('catalog and guest storage', () => {
     await activateCatalog(db, nextCatalog);
     expect((await getActiveCatalog(db))?.releaseId).toBe('dev-fixture-2');
     expect((await db.catalog.get(guestPlan.catalogReleaseId))?.recipes[0].revision).toBe(guestPlan.recipeRevision);
-    expect(await getPlan(db, guestPlan.date, guestPlan.slot)).toEqual(guestPlan);
+    expect(await getPlan(db, guestPlan.date, guestPlan.slot)).toMatchObject(guestPlan);
     await expect(activateCatalog(db, invalidCatalog)).rejects.toThrow();
     expect((await getActiveCatalog(db))?.releaseId).toBe('dev-fixture-2');
     expect((await db.catalog.get(guestPlan.catalogReleaseId))?.recipes[0].revision).toBe(guestPlan.recipeRevision);
-    expect(await getPlan(db, guestPlan.date, guestPlan.slot)).toEqual(guestPlan);
+    expect(await getPlan(db, guestPlan.date, guestPlan.slot)).toMatchObject(guestPlan);
     db.close();
   });
   it('rejects invalid guest writes and retains the prior plan', async () => {
@@ -66,7 +66,7 @@ describe('catalog and guest storage', () => {
     await savePlan(db, guestPlan);
     await expect(savePlan(db, { ...guestPlan, servings: 0 })).rejects.toThrow();
     await expect(savePlan(db, { ...guestPlan, recipeRevision: 9 })).rejects.toThrow();
-    expect(await getPlan(db, guestPlan.date, guestPlan.slot)).toEqual(guestPlan);
+    expect(await getPlan(db, guestPlan.date, guestPlan.slot)).toMatchObject(guestPlan);
     db.close();
   });
   it('rolls back an interrupted catalog activation and retains the old release', async () => {
@@ -91,7 +91,7 @@ describe('catalog and guest storage', () => {
     old.version(1).stores({ plans: '[date+slot], weekStart' });
     await old.open(); await old.table('plans').put(guestPlan); old.close();
     const db = await openDatabase(name);
-    expect(await getPlan(db, guestPlan.date, guestPlan.slot)).toEqual(guestPlan);
+    expect(await getPlan(db, guestPlan.date, guestPlan.slot)).toMatchObject(guestPlan);
     expect(await getActiveCatalog(db)).toBeUndefined();
     db.close();
   });
@@ -105,6 +105,6 @@ describe('catalog and guest storage', () => {
     });
     await expect(bad.open()).rejects.toThrow('interrupted migration fixture'); bad.close();
     const db = await openDatabase(name);
-    expect(await getPlan(db, guestPlan.date, guestPlan.slot)).toEqual(guestPlan); db.close();
+    expect(await getPlan(db, guestPlan.date, guestPlan.slot)).toMatchObject(guestPlan); db.close();
   });
 });

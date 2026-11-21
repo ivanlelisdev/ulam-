@@ -1,4 +1,4 @@
-﻿import { mkdir, readFile, writeFile, copyFile } from 'node:fs/promises';
+import { mkdir, readFile, writeFile, copyFile } from 'node:fs/promises';
 import { createHash } from 'node:crypto';
 import { fixtureCatalog } from '../tests/fixtures/catalog.ts';
 import { validateCatalog } from '../src/data/schema.ts';
@@ -20,10 +20,10 @@ const bytes = Buffer.from(JSON.stringify(validateCatalog(catalog)));
 await writeFile(`${dir}/catalog.json`, bytes);
 await writeFile('dist/catalog/manifest.json', JSON.stringify({shellVersion:1,releaseId,catalog:{path:`catalog/${releaseId}/catalog.json`,sha256:hash(bytes),bytes:bytes.length},images:catalog.images.map(image=>({path:image.path,sha256:image.sha256,bytes:image.byteLength}))}));
 await mkdir('dist/icons',{recursive:true});
-for (const [name,background] of [['icon','#faf7ef'],['maskable','#205c43']]) {
-  await writeFile(`dist/icons/${name}.svg`, `<svg xmlns="http://www.w3.org/2000/svg" width="512" height="512" viewBox="0 0 512 512"><rect width="512" height="512" rx="64" fill="${background}"/><text x="256" y="340" font-size="300" font-family="Georgia,serif" text-anchor="middle" fill="${name==='icon'?'#205c43':'#ffffff'}">u?</text></svg>`);
+for (const [name,background] of [['icon','#101214'],['maskable','#101214']]) {
+  await writeFile(`dist/icons/${name}.svg`, `<svg xmlns="http://www.w3.org/2000/svg" width="512" height="512" viewBox="0 0 512 512"><rect width="512" height="512" rx="64" fill="${background}"/><text x="256" y="340" font-size="260" font-family="Arial,sans-serif" font-weight="700" text-anchor="middle" fill="#ffdc73">u?</text></svg>`);
 }
-await writeFile('dist/manifest.webmanifest', JSON.stringify({id:'/',name:'Ulam?',short_name:'Ulam?',start_url:'/',scope:'/',display:'standalone',background_color:'#faf7ef',theme_color:'#205c43',icons:[{src:'/icons/icon.svg',sizes:'any',type:'image/svg+xml',purpose:'any'},{src:'/icons/maskable.svg',sizes:'any',type:'image/svg+xml',purpose:'maskable'}]}));
+await writeFile('dist/manifest.webmanifest', JSON.stringify({id:'/',name:'Ulam?',short_name:'Ulam?',start_url:'/',scope:'/',display:'standalone',background_color:'#101214',theme_color:'#101214',icons:[{src:'/icons/icon.svg',sizes:'any',type:'image/svg+xml',purpose:'any'},{src:'/icons/maskable.svg',sizes:'any',type:'image/svg+xml',purpose:'maskable'}]}));
 const { readdir } = await import('node:fs/promises');
 const files = ['/index.html','/manifest.webmanifest','/icons/icon.svg','/icons/maskable.svg', ...(await readdir('dist/assets')).filter(name=>/\.(js|css)$/.test(name)).map(name=>`/assets/${name}`)];
 const shellBytes = await Promise.all(files.map(path=>readFile(`dist${path}`)));

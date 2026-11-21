@@ -10,7 +10,7 @@
     "build": "tsc --noEmit && vite build && node scripts/build-offline.mjs",
     "preview": "vite preview",
     "test": "vitest run --dir tests",
-    "test:browser": "node tests/browser/offline.mjs"
+    "test:browser": "node tests/browser/offline.mjs && node tests/browser/product-loop.mjs"
   },
   "dependencies": {
     "dexie": "^4.4.7",
